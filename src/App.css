@@ -1,38 +1,53 @@
-.App {
-  text-align: center;
+.game {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: auto;
+	flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.grid {
+	display: flex;
+	flex-wrap: wrap;
+	width: 480px;
+	height: 480px;
+	border: solid 1px rgb(231, 239, 247);
+	background-color: rgb(231, 239, 247);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.grid > div {
+	width: 20px;
+	height: 20px;
+	box-sizing: border-box;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.empty {
+	background-color: rgb(231, 239, 247);
 }
 
-.App-link {
-  color: #61dafb;
+.wall {
+	background-color: darkslategray;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.pac-dot {
+	background-color: grey;
+	border: solid 6px rgb(231, 239, 247);
+}
+
+.power-pellet {
+	background-color: purple;
+	border: solid 3px white;
+	animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+	50% {
+		opacity: 0;
+	}
+}
+
+.pac-man {
+	background-color: yellow;
+	border: 2px solid black;
+	border-radius: 50%;
 }
