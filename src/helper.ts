@@ -1,31 +1,85 @@
 export const movePacman = (
-	e: any,
+	e: KeyboardEvent,
 	currentPacmanIndex: number,
-	setCurrentPacmanIndex: (arg: number) => void
+	setCurrentPacmanIndex: (arg: number) => void,
+	score: number,
+	setScore: (arg: number) => void
 ) => {
 	switch (e.key) {
 		case "ArrowUp":
 			e.preventDefault();
-			if (currentPacmanIndex - 24 >= 0) {
+			if (
+				currentPacmanIndex - 24 >= 0 &&
+				layout[currentPacmanIndex - 24] !== 1
+			) {
+				if (layout[currentPacmanIndex - 24] === 2) {
+					layout[currentPacmanIndex - 24] = 0;
+					setScore(score + 10);
+				}
+				if (layout[currentPacmanIndex - 24] === 4) {
+					layout[currentPacmanIndex - 24] = 0;
+					setScore(score + 50);
+				}
 				setCurrentPacmanIndex(currentPacmanIndex - 24);
 			}
 			break;
 		case "ArrowDown":
 			e.preventDefault();
-			if (currentPacmanIndex + 24 < 576) {
+			if (
+				currentPacmanIndex + 24 < 576 &&
+				layout[currentPacmanIndex + 24] !== 1
+			) {
+				if (layout[currentPacmanIndex + 24] === 2) {
+					layout[currentPacmanIndex + 24] = 0;
+					setScore(score + 10);
+				}
+				if (layout[currentPacmanIndex + 24] === 4) {
+					layout[currentPacmanIndex + 24] = 0;
+					setScore(score + 50);
+				}
 				setCurrentPacmanIndex(currentPacmanIndex + 24);
 			}
 			break;
 		case "ArrowLeft":
 			e.preventDefault();
-			if (currentPacmanIndex > 0 && currentPacmanIndex / 24 !== 1) {
+			if (
+				currentPacmanIndex % 24 !== 0 &&
+				currentPacmanIndex > 0 &&
+				layout[currentPacmanIndex - 1] !== 1
+			) {
+				if (layout[currentPacmanIndex - 1] === 2) {
+					layout[currentPacmanIndex - 1] = 0;
+					setScore(score + 10);
+				}
+				if (layout[currentPacmanIndex - 1] === 4) {
+					layout[currentPacmanIndex - 1] = 0;
+					setScore(score + 50);
+				}
 				setCurrentPacmanIndex(currentPacmanIndex - 1);
+			}
+			if (currentPacmanIndex === 241) {
+				setCurrentPacmanIndex(262 + 1);
 			}
 			break;
 		case "ArrowRight":
 			e.preventDefault();
-			if (currentPacmanIndex < 576 && currentPacmanIndex / 23 !== 1) {
+			if (
+				(currentPacmanIndex + 1) % 24 !== 0 &&
+				currentPacmanIndex < 576 &&
+				layout[currentPacmanIndex + 1] !== 1
+			) {
+				if (layout[currentPacmanIndex + 1] === 2) {
+					layout[currentPacmanIndex + 1] = 0;
+					setScore(score + 10);
+				}
+				if (layout[currentPacmanIndex + 1] === 4) {
+					layout[currentPacmanIndex + 1] = 0;
+					setScore(score + 50);
+				}
 				setCurrentPacmanIndex(currentPacmanIndex + 1);
+			}
+			if (currentPacmanIndex === 262) {
+				setCurrentPacmanIndex(241 - 1);
 			}
 			break;
 	}
@@ -50,36 +104,53 @@ export const setItemClass = (item: number, i: number, currentIndex: number) => {
 	if (item === 4) {
 		return "power-pellet";
 	}
+	if (item === 5) {
+		return "blinky ghost";
+	}
+	if (item === 6) {
+		return "pinky ghost";
+	}
+	if (item === 7) {
+		return "inky ghost";
+	}
+	if (item === 8) {
+		return "clyde ghost";
+	}
 };
 
 export const layout = [
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,
-	2, 4, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 4, 2, 1, 1, 1, 1, 2,
-	1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1,
-	1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 2, 2,
-	2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2,
-	1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0,
-	1, 1, 1, 3, 3, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1,
-	3, 3, 3, 3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1, 0, 0, 2, 2, 2, 2, 2, 0, 1, 3,
-	3, 3, 3, 3, 3, 1, 0, 2, 2, 2, 2, 2, 0, 0, 1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 3,
-	3, 3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 3, 3,
-	3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1,
-	1, 1, 1, 0, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1,
-	2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2,
-	1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1,
-	1, 2, 1, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-	2, 2, 2, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2,
-	1, 1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1,
-	1, 1, 2, 1, 1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-	1, 2, 1, 1, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2,
-	4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-];
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	[1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1],
+	[1, 1, 2, 4, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 4, 2, 1, 1],
+	[1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1],
+	[1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 1, 2, 1, 1, 2, 1, 1],
+	[1, 1, 2, 2, 2, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 2, 1, 1],
+	[1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1, 2, 1, 0, 1, 1, 1, 3, 3, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1],
+	[0, 0, 2, 2, 2, 2, 2, 0, 1, 3, 5, 3, 3, 6, 3, 1, 0, 2, 2, 2, 2, 2, 0, 0],
+	[1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 7, 3, 3, 8, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1],
+	[1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1],
+	[1, 1, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 1, 1],
+	[1, 1, 2, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 2, 1, 1],
+	[1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1],
+	[1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1],
+	[1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1],
+	[1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+	[1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1],
+	[1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1],
+	[1, 2, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 1],
+	[1, 4, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4, 1],
+	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+].flat(1);
 
 //0 - empty
 //1 - wall
 //2 - pac-dot
 //3 - ghost-lair
 //4 - power-pellet
+//5 - blinky
+//6 - pinky
+//7 - inky
+//8 - clyde

@@ -4,6 +4,7 @@
 	align-items: center;
 	margin: auto;
 	flex-direction: column;
+	min-height: 100vh;
 }
 
 .grid {
@@ -50,4 +51,45 @@
 	background-color: yellow;
 	border: 2px solid black;
 	border-radius: 50%;
+}
+
+.blinky,
+.pinky,
+.inky,
+.clyde {
+	background-color: red;
+	border: 2px solid black;
+	border-radius: 50% 50% 0 0;
+}
+
+.pinky {
+	background-color: plum;
+}
+
+.inky {
+	background-color: cyan;
+}
+
+.clyde {
+	background-color: orange;
+}
+
+.status {
+	position: absolute;
+	top: 300px;
+	left: 50vw;
+	transform-origin: center;
+	transform: translateX(-50%);
+	background-color: rgba(255, 255, 255, 0.8);
+	border: solid 4px rgb(139, 0, 139);
+	width: 85%;
+	height: 30%;
+	border-radius: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+	color: rgb(139, 0, 139);
+	font-size: 2rem;
+	font-weight: 700;
 }
