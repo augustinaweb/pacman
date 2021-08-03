@@ -85,9 +85,40 @@ export const movePacman = (
 	}
 };
 
-export const setItemClass = (item: number, i: number, currentIndex: number) => {
-	if (i === currentIndex) {
+export const moveBlinkyGhost = (
+	currentBlinkyIndex: number,
+	setCurrentBlinkyIndex: (arg: number) => void
+) => {
+	const blinky = document.querySelector(".blinky");
+	const directions = [+1, -1, +24, -24];
+	const newDirection =
+		directions[Math.floor(Math.random() * directions.length)];
+	setCurrentBlinkyIndex(currentBlinkyIndex + newDirection);
+};
+
+export const setItemClass = (
+	item: number,
+	i: number,
+	currentPacmanIndex: number,
+	currentBlinkyIndex: number,
+	currentPinkyIndex: number,
+	currentInkyIndex: number,
+	currentClydeIndex: number
+) => {
+	if (i === currentPacmanIndex) {
 		return "pac-man";
+	}
+	if (i === currentBlinkyIndex) {
+		return "blinky ghost";
+	}
+	if (i === currentPinkyIndex) {
+		return "pinky ghost";
+	}
+	if (i === currentInkyIndex) {
+		return "inky ghost";
+	}
+	if (i === currentClydeIndex) {
+		return "clyde ghost";
 	}
 	if (item === 0) {
 		return "empty";
@@ -104,18 +135,6 @@ export const setItemClass = (item: number, i: number, currentIndex: number) => {
 	if (item === 4) {
 		return "power-pellet";
 	}
-	if (item === 5) {
-		return "blinky ghost";
-	}
-	if (item === 6) {
-		return "pinky ghost";
-	}
-	if (item === 7) {
-		return "inky ghost";
-	}
-	if (item === 8) {
-		return "clyde ghost";
-	}
 };
 
 export const layout = [
@@ -129,8 +148,8 @@ export const layout = [
 	[1, 1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 1, 1, 1],
 	[1, 1, 1, 1, 1, 2, 1, 0, 1, 1, 1, 3, 3, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1],
 	[1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1],
-	[0, 0, 2, 2, 2, 2, 2, 0, 1, 3, 5, 3, 3, 6, 3, 1, 0, 2, 2, 2, 2, 2, 0, 0],
-	[1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 7, 3, 3, 8, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1],
+	[0, 0, 2, 2, 2, 2, 2, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 2, 2, 2, 2, 2, 0, 0],
+	[1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1],
 	[1, 1, 1, 1, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 3, 1, 0, 1, 2, 1, 1, 1, 1, 1],
 	[1, 1, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 1, 1],
 	[1, 1, 2, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 1, 2, 1, 1],
@@ -150,7 +169,3 @@ export const layout = [
 //2 - pac-dot
 //3 - ghost-lair
 //4 - power-pellet
-//5 - blinky
-//6 - pinky
-//7 - inky
-//8 - clyde
