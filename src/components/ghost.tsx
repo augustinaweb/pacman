@@ -26,7 +26,8 @@ export const Ghost: React.FC<GhostProps> = ({
 			style={{
 				top: `${top}px`,
 				left: `${left}px`,
-				transition: "left 1s, top 1s"
+				transition: "left 1s, top 1s",
+				display: `${currentGhostIndex === -1 ? `none` : ``}`
 			}}
 		>
 			<div className="ghost" data-name={ghostName} data-scared={scared}>

@@ -1,7 +1,8 @@
 import React from "react";
 import "../styles/App.css";
-import { layout, setItemClass, moveGhost } from "../helpers/helper";
+import { layout, setItemClass } from "../helpers/helper";
 import { movePacman } from "../helpers/move.pacman";
+import { moveGhost } from "../helpers/move.ghost";
 import { Pacman } from "./pacman";
 import { Ghost, GhostNames } from "./ghost";
 
@@ -59,7 +60,7 @@ const App = () => {
 	}, [onKeyUp]);
 
 	React.useEffect(() => {
-		if (gameOn) {
+		if (gameOn && currentBlinkyIndex !== -1) {
 			const blinky = setInterval(
 				() =>
 					moveGhost(
@@ -77,7 +78,7 @@ const App = () => {
 	}, [currentBlinkyIndex, ghosts, gameOn]);
 
 	React.useEffect(() => {
-		if (gameOn) {
+		if (gameOn && currentPinkyIndex !== -1) {
 			const pinky = setInterval(
 				() =>
 					moveGhost(currentPinkyIndex, setCurrentPinkyIndex, ghosts),
@@ -90,7 +91,7 @@ const App = () => {
 	}, [currentPinkyIndex, ghosts, gameOn]);
 
 	React.useEffect(() => {
-		if (gameOn) {
+		if (gameOn && currentInkyIndex !== -1) {
 			const inky = setInterval(
 				() => moveGhost(currentInkyIndex, setCurrentInkyIndex, ghosts),
 				1000
@@ -102,7 +103,7 @@ const App = () => {
 	}, [currentInkyIndex, ghosts, gameOn]);
 
 	React.useEffect(() => {
-		if (gameOn) {
+		if (gameOn && currentClydeIndex !== -1) {
 			const clyde = setInterval(
 				() =>
 					moveGhost(currentClydeIndex, setCurrentClydeIndex, ghosts),
@@ -115,10 +116,40 @@ const App = () => {
 	}, [currentClydeIndex, ghosts, gameOn]);
 
 	React.useEffect(() => {
-		if (ghosts.includes(currentPacmanIndex)) {
+		if (ghosts.includes(currentPacmanIndex) && !scaredGhosts) {
 			setgameOn(false);
 		}
-	}, [ghosts, currentPacmanIndex]);
+		if (ghosts.includes(currentPacmanIndex) && scaredGhosts) {
+			const eatenGhost = ghosts.find(
+				(ghost) => ghost === currentPacmanIndex
+			);
+			switch (eatenGhost) {
+				case currentBlinkyIndex:
+					setCurrentBlinkyIndex(-1);
+					break;
+				case currentPinkyIndex:
+					setCurrentPinkyIndex(-1);
+					break;
+				case currentInkyIndex:
+					setCurrentInkyIndex(-1);
+					break;
+				case currentClydeIndex:
+					setCurrentClydeIndex(-1);
+					break;
+			}
+
+			setScore(score + 50);
+		}
+	}, [
+		ghosts,
+		currentPacmanIndex,
+		score,
+		scaredGhosts,
+		currentBlinkyIndex,
+		currentInkyIndex,
+		currentPinkyIndex,
+		currentClydeIndex
+	]);
 
 	return (
 		<div className="game">
@@ -160,7 +191,7 @@ const App = () => {
 					<p>Congratulations - You Won!</p>
 				</div>
 			)}
-			{ghosts.includes(currentPacmanIndex) && (
+			{ghosts.includes(currentPacmanIndex) && !scaredGhosts && (
 				<div className="status">
 					<p>Game Over!</p>
 				</div>
