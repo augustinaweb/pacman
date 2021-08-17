@@ -1,0 +1,35 @@
+.pacman-container {
+	position: absolute;
+	display: flex;
+	width: 25px;
+	height: 25px;
+	justify-content: center;
+	align-items: center;
+}
+
+.pacman {
+	background-color: yellow;
+	border-radius: 50%;
+	width: 18px;
+	height: 18px;
+	position: relative;
+}
+
+.pacman-mouth {
+	background-color: rgb(14, 14, 51);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	clip-path: polygon(100% 74%, 44% 48%, 100% 21%);
+	animation: eat 0.7s infinite;
+}
+
+@keyframes eat {
+	0% {
+		clip-path: polygon(100% 74%, 44% 48%, 100% 21%);
+	}
+	25% {
+		clip-path: polygon(100% 60%, 44% 48%, 100% 50%);
+	}
+}
